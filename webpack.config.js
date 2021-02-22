@@ -255,6 +255,19 @@ module.exports = [
 
     Object.assign({}, config, {
         entry: {
+            'audiofeedback': './react/features/stream-effects/audiofeedback/index.js'
+        },
+        output: Object.assign({}, config.output, {
+            library: [ 'JitsiMeetJS', 'app', 'effects', 'audiofeedback' ],
+            libraryTarget: 'window',
+            filename: '[name].min.js',
+            sourceMapFilename: '[name].min.map'
+        }),
+        performance: getPerformanceHints(30 * 1024)
+    }),
+
+    Object.assign({}, config, {
+        entry: {
             'rnnoise-processor': './react/features/stream-effects/rnnoise/index.js'
         },
         output: Object.assign({}, config.output, {

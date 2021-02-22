@@ -111,6 +111,7 @@ export default [
     'enableTalkWhileMuted',
     'enableNoAudioDetection',
     'enableNoisyMicDetection',
+    'enableAudiofeedbackDetection',
     'enableTcc',
     'enableAutomaticUrlCopy',
     'etherpad_base',

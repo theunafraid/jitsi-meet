@@ -4,6 +4,7 @@ DEPLOY_DIR = libs
 LIBJITSIMEET_DIR = node_modules/lib-jitsi-meet/
 LIBFLAC_DIR = node_modules/libflacjs/dist/min/
 OLM_DIR = node_modules/olm
+AUDIOFEEDBACK_WASM_DIR = node_modules/audiofeedback-wasm/bin
 RNNOISE_WASM_DIR = node_modules/rnnoise-wasm/dist/
 TFLITE_WASM = react/features/stream-effects/blur/vendor/tflite
 MEET_MODELS_DIR  = react/features/stream-effects/blur/vendor/models/
@@ -28,7 +29,7 @@ clean:
 	rm -fr $(BUILD_DIR)
 
 .NOTPARALLEL:
-deploy: deploy-init deploy-appbundle deploy-rnnoise-binary deploy-tflite deploy-meet-models deploy-lib-jitsi-meet deploy-libflac deploy-olm deploy-css deploy-local
+deploy: deploy-init deploy-appbundle deploy-rnnoise-binary deploy-audiofeedback-binary deploy-tflite deploy-meet-models deploy-lib-jitsi-meet deploy-libflac deploy-olm deploy-css deploy-local
 
 deploy-init:
 	rm -fr $(DEPLOY_DIR)
@@ -79,6 +80,11 @@ deploy-olm:
 		$(OLM_DIR)/olm.wasm \
 		$(DEPLOY_DIR)
 
+deploy-audiofeedback-binary:
+	cp \
+		$(AUDIOFEEDBACK_WASM_DIR)/audiofeedback* \
+		$(DEPLOY_DIR)
+
 deploy-rnnoise-binary:
 	cp \
 		$(RNNOISE_WASM_DIR)/rnnoise.wasm \
@@ -103,8 +109,8 @@ deploy-local:
 	([ ! -x deploy-local.sh ] || ./deploy-local.sh)
 
 .NOTPARALLEL:
-dev: deploy-init deploy-css deploy-rnnoise-binary deploy-tflite deploy-meet-models deploy-lib-jitsi-meet deploy-libflac deploy-olm
-	$(WEBPACK_DEV_SERVER) --detect-circular-deps
+dev: deploy-init deploy-css deploy-rnnoise-binary deploy-audiofeedback-binary deploy-tflite deploy-meet-models deploy-lib-jitsi-meet deploy-libflac deploy-olm
+	$(WEBPACK_DEV_SERVER)
 
 source-package:
 	mkdir -p source_package/jitsi-meet/css && \
